@@ -44,11 +44,11 @@ const treeFactory = (array) => {
       return null;
     }
     if (value < currentNode.getValue()) {
-      if (currentNode.getLeftChildren === null) {
+      if (currentNode.getLeftChild === null) {
         const newNode = nodeFactory(value);
-        currentNode.setLeftChildren(newNode);
+        currentNode.setLeftChild(newNode);
       } else {
-        currentNode = currentNode.getLeftChildren();
+        currentNode = currentNode.getLeftChild();
         insert(value);
       }
     }
