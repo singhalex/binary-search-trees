@@ -78,8 +78,36 @@ const treeFactory = (array) => {
     return currentNode;
   };
 
+  const levelOrder = (cb = null) => {
+    // Return empty array if list is empty
+    if (root === null) return [];
+
+    const nodeQueue = [root];
+    const valueArray = [];
+
+    while (nodeQueue.length > 0) {
+      // Add left child to the queue
+      if (nodeQueue[0].getLeftChild()) {
+        nodeQueue.push(nodeQueue[0].getLeftChild());
+      }
+      // Add right child to the queue
+      if (nodeQueue[0].getRightChild()) {
+        nodeQueue.push(nodeQueue[0].getRightChild());
+      }
+      // Add the first node in the queue's value to the array
+      valueArray.push(nodeQueue.shift().getValue());
+    }
+    // Return the value array if no callback was provided
+    if (cb === null) {
+      return valueArray;
+    }
+
+    // Return the array with the callback applied to each value in the array
+    return valueArray.map(cb);
+  };
+
   return {
-    getRoot, insert, deleteNode, find,
+    getRoot, insert, deleteNode, find, levelOrder,
   };
 };
 
@@ -98,4 +126,11 @@ prettyPrint(testTree.getRoot());
 // blankTree.insert(5);
 // prettyPrint(blankTree.getRoot());
 
-console.log(testTree.find(330).getValue());
+// console.log(testTree.find(330).getValue());
+
+console.log(testTree.levelOrder());
+
+function addTwo(num) {
+  return num + 2;
+}
+console.log(testTree.levelOrder(addTwo));
