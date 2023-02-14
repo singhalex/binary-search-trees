@@ -40,6 +40,7 @@ const treeFactory = (array) => {
   const getRoot = () => root;
 
   const insert = (value, currentNode = root) => {
+    // Creates a new tree with the given value if the tree is empty
     if (root === null) {
       root = buildTree([value]);
     }
@@ -56,10 +57,33 @@ const treeFactory = (array) => {
     return currentNode;
   };
 
-  return { getRoot, insert };
+  const deleteNode = (value, currentNode = root) => {
+    if (root === null) return;
+  };
+
+  const find = (value, currentNode = root) => {
+    if (currentNode === null) {
+      console.log('Value not in tree');
+      return null;
+    }
+
+    if (value === currentNode.getValue()) {
+      return currentNode;
+    }
+    if (value < currentNode.getValue()) {
+      return find(value, currentNode.getLeftChild());
+    } if (value > currentNode.getValue()) {
+      return find(value, currentNode.getRightChild());
+    }
+    return currentNode;
+  };
+
+  return {
+    getRoot, insert, deleteNode, find,
+  };
 };
 
-const randArray = Array.from({ length: 10 }, () => Math.floor(Math.random() * 40));
+// const randArray = Array.from({ length: 10 }, () => Math.floor(Math.random() * 40));
 const testArray = [2, 9, 10, 11, 12, 14, 21, 33, 35];
 console.log([...new Set(testArray.sort((a, b) => a - b))]);
 
@@ -73,3 +97,5 @@ prettyPrint(testTree.getRoot());
 // prettyPrint(blankTree.getRoot());
 // blankTree.insert(5);
 // prettyPrint(blankTree.getRoot());
+
+console.log(testTree.find(330).getValue());
