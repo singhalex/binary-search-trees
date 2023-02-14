@@ -1,3 +1,5 @@
+import prettyPrint from './prettyprint.js';
+
 const nodeFactory = (value = null, leftChild = null, rightChild = null) => {
   let storedValue = value;
   let storedLeftChild = leftChild;
@@ -10,11 +12,11 @@ const nodeFactory = (value = null, leftChild = null, rightChild = null) => {
   const setValue = (newValue) => {
     storedValue = newValue;
   };
-  const setLeftChild = (newLeftChildren) => {
-    storedLeftChild = newLeftChildren;
+  const setLeftChild = (newLeftChild) => {
+    storedLeftChild = newLeftChild;
   };
-  const setRightChild = (newRightChildren) => {
-    storedRightChild = newRightChildren;
+  const setRightChild = (newRightChild) => {
+    storedRightChild = newRightChild;
   };
 
   return {
@@ -37,21 +39,8 @@ const treeFactory = (array) => {
   const root = buildTree(sortedArray);
   const getRoot = () => root;
 
-  const insert = (value) => {
-    let currentNode = root;
+  const insert = (value, currentNode = root) => {
 
-    if (value === currentNode.getValue()) {
-      return null;
-    }
-    if (value < currentNode.getValue()) {
-      if (currentNode.getLeftChild === null) {
-        const newNode = nodeFactory(value);
-        currentNode.setLeftChild(newNode);
-      } else {
-        currentNode = currentNode.getLeftChild();
-        insert(value);
-      }
-    }
   };
 
   return { getRoot, insert };
@@ -62,15 +51,3 @@ console.log([...new Set(testArray.sort((a, b) => a - b))]);
 const testTree = treeFactory(testArray);
 
 console.log(testTree.getRoot().getLeftChild().getValue());
-
-const prettyPrint = (node, prefix = '', isLeft = true) => {
-  if (node.getRightChild() !== null) {
-    prettyPrint(node.getRightChild(), `${prefix}${isLeft ? '│   ' : '    '}`, false);
-  }
-  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.getValue()}`);
-  if (node.getLeftChild() !== null) {
-    prettyPrint(node.getLeftChild(), `${prefix}${isLeft ? '    ' : '│   '}`, true);
-  }
-};
-
-prettyPrint(testTree.getRoot());
