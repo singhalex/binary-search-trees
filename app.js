@@ -106,8 +106,21 @@ const treeFactory = (array) => {
     return valueArray.map(cb);
   };
 
+  // Runs a call back on node values in pre order or returns array if no cb
+  const preOrder = (cb = null, currentNode = root, valueArray = []) => {
+    if (currentNode === null) return null;
+
+    // Run callback on value or add to the array
+    cb ? cb(currentNode.getValue()) : valueArray.push(currentNode.getValue());
+
+    preOrder(cb, currentNode.getLeftChild(), valueArray);
+    preOrder(cb, currentNode.getRightChild(), valueArray);
+
+    if (valueArray.length > 0) return valueArray;
+  };
+
   return {
-    getRoot, insert, deleteNode, find, levelOrder,
+    getRoot, insert, deleteNode, find, levelOrder, preOrder,
   };
 };
 
@@ -119,18 +132,9 @@ const testTree = treeFactory(testArray);
 prettyPrint(testTree.getRoot());
 
 testTree.insert(2);
-prettyPrint(testTree.getRoot());
-
-// const blankTree = treeFactory([]);
-// prettyPrint(blankTree.getRoot());
-// blankTree.insert(5);
-// prettyPrint(blankTree.getRoot());
-
-// console.log(testTree.find(330).getValue());
-
-console.log(testTree.levelOrder());
-
-function addTwo(num) {
-  return num + 2;
+function printValue(value) {
+  console.log(`This is the node value ${value}`);
 }
-console.log(testTree.levelOrder(addTwo));
+
+console.log(testTree.preOrder());
+testTree.preOrder(printValue);
