@@ -36,18 +36,40 @@ const treeFactory = (array) => {
     return newNode;
   };
 
-  const root = buildTree(sortedArray);
+  let root = buildTree(sortedArray);
   const getRoot = () => root;
 
   const insert = (value, currentNode = root) => {
+    if (root === null) {
+      root = buildTree([value]);
+    }
 
+    if (currentNode === null) return nodeFactory(value);
+    if (currentNode.value === value) return;
+
+    if (value < currentNode.getValue()) {
+      currentNode.setLeftChild(insert(value, currentNode.getLeftChild()));
+    } else {
+      currentNode.setRightChild(insert(value, currentNode.getRightChild()));
+    }
+
+    return currentNode;
   };
 
   return { getRoot, insert };
 };
 
-const testArray = [1, 3, 1, 2, 4, 5, 8, 7, 3, 6, 8, 10];
+const randArray = Array.from({ length: 10 }, () => Math.floor(Math.random() * 40));
+const testArray = [2, 9, 10, 11, 12, 14, 21, 33, 35];
 console.log([...new Set(testArray.sort((a, b) => a - b))]);
-const testTree = treeFactory(testArray);
 
-console.log(testTree.getRoot().getLeftChild().getValue());
+const testTree = treeFactory(testArray);
+prettyPrint(testTree.getRoot());
+
+testTree.insert(2);
+prettyPrint(testTree.getRoot());
+
+// const blankTree = treeFactory([]);
+// prettyPrint(blankTree.getRoot());
+// blankTree.insert(5);
+// prettyPrint(blankTree.getRoot());
