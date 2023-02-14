@@ -119,8 +119,20 @@ const treeFactory = (array) => {
     if (valueArray.length > 0) return valueArray;
   };
 
+  // Runs a call back on node values in order or returns array if no cb
+  const inOrder = (cb = null, currentNode = root, valueArray = []) => {
+    if (currentNode === null) return null;
+
+    inOrder(cb, currentNode.getLeftChild(), valueArray);
+    // Run callback on value or add to the array
+    cb ? cb(currentNode.getValue()) : valueArray.push(currentNode.getValue());
+    inOrder(cb, currentNode.getRightChild(), valueArray);
+
+    if (valueArray.length > 0) return valueArray;
+  };
+
   return {
-    getRoot, insert, deleteNode, find, levelOrder, preOrder,
+    getRoot, insert, deleteNode, find, levelOrder, preOrder, inOrder,
   };
 };
 
@@ -138,3 +150,6 @@ function printValue(value) {
 
 console.log(testTree.preOrder());
 testTree.preOrder(printValue);
+
+console.log(testTree.inOrder());
+testTree.inOrder(printValue);
