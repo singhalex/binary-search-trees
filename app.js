@@ -131,8 +131,20 @@ const treeFactory = (array) => {
     if (valueArray.length > 0) return valueArray;
   };
 
+  // Runs a call back on node values in post order or returns array if no cb
+  const postOrder = (cb = null, currentNode = root, valueArray = []) => {
+    if (currentNode === null) return null;
+
+    postOrder(cb, currentNode.getLeftChild(), valueArray);
+    postOrder(cb, currentNode.getRightChild(), valueArray);
+    // Run callback on value or add to the array
+    cb ? cb(currentNode.getValue()) : valueArray.push(currentNode.getValue());
+
+    if (valueArray.length > 0) return valueArray;
+  };
+
   return {
-    getRoot, insert, deleteNode, find, levelOrder, preOrder, inOrder,
+    getRoot, insert, deleteNode, find, levelOrder, preOrder, inOrder, postOrder,
   };
 };
 
@@ -153,3 +165,6 @@ testTree.preOrder(printValue);
 
 console.log(testTree.inOrder());
 testTree.inOrder(printValue);
+
+console.log(testTree.postOrder());
+testTree.postOrder(printValue);
