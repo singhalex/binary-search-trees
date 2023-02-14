@@ -45,7 +45,7 @@ const treeFactory = (array) => {
     }
 
     if (currentNode === null) return nodeFactory(value);
-    if (currentNode.value === value) return;
+    if (currentNode.getValue() === value) return currentNode;
 
     if (value < currentNode.getValue()) {
       currentNode.setLeftChild(insert(value, currentNode.getLeftChild()));
