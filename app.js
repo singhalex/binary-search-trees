@@ -143,7 +143,7 @@ const treeFactory = (array) => {
     if (valueArray.length > 0) return valueArray;
   };
 
-  const height = (searchValue, currentNode = root) => {
+  const depth = (searchValue, currentNode = root) => {
     // Base condition
     if (currentNode === null) {
       return 0;
@@ -153,8 +153,8 @@ const treeFactory = (array) => {
     }
 
     // Recursive cases
-    const leftHeight = height(searchValue, currentNode.getLeftChild());
-    const rightHeight = height(searchValue, currentNode.getRightChild());
+    const leftHeight = depth(searchValue, currentNode.getLeftChild());
+    const rightHeight = depth(searchValue, currentNode.getRightChild());
     // Does not iterate the counters if no value is found
     if (leftHeight === 0 && rightHeight === 0) {
       return 0;
@@ -164,7 +164,7 @@ const treeFactory = (array) => {
   };
 
   return {
-    getRoot, insert, deleteNode, find, levelOrder, preOrder, inOrder, postOrder, height,
+    getRoot, insert, deleteNode, find, levelOrder, preOrder, inOrder, postOrder, depth,
   };
 };
 
@@ -189,4 +189,4 @@ testTree.inOrder(printValue);
 console.log(testTree.postOrder());
 testTree.postOrder(printValue);
 
-console.log(testTree.height(2));
+console.log(testTree.depth(2));
